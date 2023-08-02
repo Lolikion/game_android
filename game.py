@@ -13,10 +13,52 @@ pygame.display.set_icon(icon)
 display.fill((0,0,0))
 clock=pygame.time.Clock()
 
+def print_txt(txt,x,y,size=30,clr=(255,255,255)):
+    font_type=pygame.font.Font('better-vcr_0.ttf',size)
+    text=font_type.render(txt,True,clr)
+    display.blit(text,(x,y))
+input_state=False
+rd=False
+msg = ''
+bad=False
+sz=10
+while not rd:
+
+    for event in pygame.event.get():
+        if event.type == pygame.KEYDOWN and event.unicode in '0123456789':
+            msg += event.unicode
+
+
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            quit()
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_TAB:
+                if len(msg)>0:
+                    if 2<=int(msg)<=40:
+                        rd=True
+                    else:
+                        bad=True
+                        sz+=6
+            if event.key==pygame.K_BACKSPACE:
+                msg=msg[:-1]
+                if sz>10:
+                    sz-=10
+    display.fill((0, 0, 0))
+    if not bad:
+        print_txt('press Tab чтобы подтвердить', 20, 200, size=20)
+    else:
+        print_txt('введите целое число от 2 до 40', 20, 200, size=sz)
+    print_txt('enter_n:', 20, 400)
+    print_txt(msg, x=200, y=400)
+    pygame.display.update()
+    clock.tick(60)
+
+n=int(msg)
 
 
 #n=int(input('n='))
-n=5
+
 con=750/n
 player_x=125+con/4
 player_y=750-3*(con/4)
@@ -36,13 +78,16 @@ cells= [[tuple(r(0,255) for j in range(3)) for i in range(n)] for y in range(n)]
 
 
 
+
 def change_clrs():
     global cells,n
     for i in range(n):
         for j in range(n):
             cells[i][j]=tuple(r(0,255) for j in range(3))
 
+
 while True:
+
     for event in pygame.event.get():
         if event.type==pygame.QUIT:
             pygame.quit()
@@ -52,11 +97,12 @@ while True:
                 change_clrs()
         if event.type==pygame.KEYDOWN and event.key in [pygame.K_UP,pygame.K_DOWN,pygame.K_RIGHT,pygame.K_LEFT]:
             move(event.key)
-            change_clrs()
+
     pygame.draw.rect(display,(200,100,100),(125,0,750,750))
 
     keys=pygame.key.get_pressed()
     display.fill((0, 0, 0))
+
     for i in range(n):
         for j in range(n):
             pygame.draw.rect(display, cells[i][j],(125+i*con,0+j*con,con,con))
