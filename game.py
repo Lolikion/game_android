@@ -57,7 +57,7 @@ sz=10
 #
 # n=int(msg)
 
-n=5
+n=4
 #n=int(input('n='))
 
 con=750/n
@@ -100,8 +100,9 @@ def change_clrs():
 tm1=None
 dif=None
 win = False
+st=time.time()
 while True:
-    if cnt==[1,1,1]:
+    if cnt==[2,2,2]:
         win=True
     if not win:
         current_clr=cells[x_crd][y_crd]
@@ -143,11 +144,13 @@ while True:
         pygame.draw.rect(display,(0,0,0),(player_x,player_y,con/2,con/2))
 
         pygame.draw.rect(display, goal[0], (900,250,40,40))
-        print_txt(str(cnt[0])+"/3",950,255)
+        print_txt(str(cnt[0])+"/2",950,255)
         pygame.draw.rect(display, goal[1], (900, 350, 40, 40))
-        print_txt(str(cnt[1])+"/3", 950, 355)
+        print_txt(str(cnt[1])+"/2", 950, 355)
         pygame.draw.rect(display, goal[2], (900, 450, 40, 40))
-        print_txt(str(cnt[2])+"/3", 950, 455)
+        print_txt(str(cnt[2])+"/2", 950, 455)
+        print_txt('game time:', 900, 55)
+        print_txt(str(round(time.time()-st,4)), 900, 95)
         if dif!=None:
             print_txt(str(round(dif,4)), 950, 555)
         #pygame.draw.rect(display, current_clr, (950, 550, 60, 60))
