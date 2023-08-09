@@ -100,67 +100,81 @@ def change_clrs():
 tm1=None
 dif=None
 win = False
+lose=False
 st=time.time()
 while True:
     if cnt==[2,2,2]:
         win=True
-    if not win:
-        current_clr=cells[x_crd][y_crd]
-        if current_clr in goal:
-            if tm1 is None:
-                tm1=time.time()
-            else:
-                dif=time.time()-tm1
-                if dif>=2:
-                    cnt[goal.index(current_clr)] += 1
-                    tm1=None
-                    dif=None
-        else:
-            tm1=None
-            dif=None
+    if lose==True:
         for event in pygame.event.get():
             if event.type==pygame.QUIT:
                 pygame.quit()
                 quit()
-            if event.type==pygame.KEYDOWN:
-                if event.key==pygame.K_SPACE:
-                    change_clrs()
-            if event.type==pygame.KEYDOWN and event.key in [pygame.K_UP,pygame.K_DOWN,pygame.K_RIGHT,pygame.K_LEFT]:
-                # if current_clr in goal:
-                #     if time.time()-tm1>=1:
-                #         cnt[goal.index(current_clr)] += 1
-                #     tm1=None
-                move(event.key)
-
-
-        pygame.draw.rect(display,(200,100,100),(125,0,750,750))
-
-        keys=pygame.key.get_pressed()
         display.fill((0, 0, 0))
-
-        for i in range(n):
-            for j in range(n):
-                pygame.draw.rect(display, cells[i][j],(125+i*con,0+j*con,con,con))
-        pygame.draw.rect(display,(0,0,0),(player_x,player_y,con/2,con/2))
-
-        pygame.draw.rect(display, goal[0], (900,250,40,40))
-        print_txt(str(cnt[0])+"/2",950,255)
-        pygame.draw.rect(display, goal[1], (900, 350, 40, 40))
-        print_txt(str(cnt[1])+"/2", 950, 355)
-        pygame.draw.rect(display, goal[2], (900, 450, 40, 40))
-        print_txt(str(cnt[2])+"/2", 950, 455)
-        print_txt('game time:', 900, 55)
-        print_txt(str(round(time.time()-st,4)), 900, 95)
-        if dif!=None:
-            print_txt(str(round(dif,4)), 950, 555)
-        #pygame.draw.rect(display, current_clr, (950, 550, 60, 60))
+        print_txt('U LOSE', 100, 100, size=50)
     else:
-        for event in pygame.event.get():
-            if event.type==pygame.QUIT:
-                pygame.quit()
-                quit()
-        display.fill((0, 0, 0))
-        print_txt('U WIN', 100, 100, size=50)
+        if win==False:
+            current_clr=cells[x_crd][y_crd]
+            if current_clr in goal:
+                if tm1 is None:
+                    tm1=time.time()
+                else:
+                    dif=time.time()-tm1
+                    if dif>=2:
+                        cnt[goal.index(current_clr)] += 1
+                        tm1=None
+                        dif=None
+            else:
+                tm1=None
+                dif=None
+            for event in pygame.event.get():
+                if event.type==pygame.QUIT:
+                    pygame.quit()
+                    quit()
+                if event.type==pygame.KEYDOWN:
+                    if event.key==pygame.K_SPACE:
+                        change_clrs()
+                if event.type==pygame.KEYDOWN and event.key in [pygame.K_UP,pygame.K_DOWN,pygame.K_RIGHT,pygame.K_LEFT]:
+                    # if current_clr in goal:
+                    #     if time.time()-tm1>=1:
+                    #         cnt[goal.index(current_clr)] += 1
+                    #     tm1=None
+                    move(event.key)
+
+
+            pygame.draw.rect(display,(200,100,100),(125,0,750,750))
+
+            keys=pygame.key.get_pressed()
+            display.fill((0, 0, 0))
+
+            for i in range(n):
+                for j in range(n):
+                    pygame.draw.rect(display, cells[i][j],(125+i*con,0+j*con,con,con))
+            pygame.draw.rect(display,(0,0,0),(player_x,player_y,con/2,con/2))
+
+            pygame.draw.rect(display, goal[0], (900,250,40,40))
+            print_txt(str(cnt[0])+"/2",950,255)
+            pygame.draw.rect(display, goal[1], (900, 350, 40, 40))
+            print_txt(str(cnt[1])+"/2", 950, 355)
+            pygame.draw.rect(display, goal[2], (900, 450, 40, 40))
+            print_txt(str(cnt[2])+"/2", 950, 455)
+            print_txt('game time:', 900, 55)
+            total_tm=round(5-(time.time()-st),4)
+            if total_tm<=0:
+                lose=True
+            else:
+                print_txt(str(total_tm), 900, 95)
+
+            if dif!=None:
+                print_txt(str(round(dif,4)), 950, 555)
+            #pygame.draw.rect(display, current_clr, (950, 550, 60, 60))
+        else:
+            for event in pygame.event.get():
+                if event.type==pygame.QUIT:
+                    pygame.quit()
+                    quit()
+            display.fill((0, 0, 0))
+            print_txt('U WIN', 100, 100, size=50)
     pygame.display.update()
     clock.tick(60)
 
