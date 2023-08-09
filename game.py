@@ -159,7 +159,7 @@ while True:
             pygame.draw.rect(display, goal[2], (900, 450, 40, 40))
             print_txt(str(cnt[2])+"/2", 950, 455)
             print_txt('game time:', 900, 55)
-            total_tm=round(5-(time.time()-st),4)
+            total_tm=round(15-(time.time()-st),4)
             if total_tm<=0:
                 lose=True
             else:
