@@ -87,7 +87,7 @@ clrs=[(000,255,255),(000,000,255),(255,000,255),(000,255,000),(000,128,000),(128
 
 
 ###тут задаю основные переменные
-n=4  #размер поля
+n=100  #размер поля
 cells= [[clrs[r(0,len(clrs)-1)] for i in range(n)] for y in range(n)] #массив в котором хранятся цвета для каждой из клеток
 if dfclt[0]: #это чиселки которые будут в каждой из клеток
     nums=[ [r(-5,5) for i in range(n)] for j in range(n) ]
@@ -98,7 +98,7 @@ if dfclt[1]: #тут храним инфу мёртвая ли клетка
 
 goal= []  #тут придумываю 3 цвета которые нужно будет собрать
 cnt=[0,0,0] #счётчик собранных цветов
-
+pwr=3#кол-во возможных смен цветов
 while len(goal)!=3:
     x=cells[r(0,n-1)][r(0,n-1)]
     if x!=cells[0][n-1] and x not in goal:
@@ -154,8 +154,8 @@ def move(key): #эта ответственна за передвижки она
 
 
 def restart(): #при рестарте заново инициализирует все переменные (да так нужно)
-    global cells,goal,cnt,player_y,player_x,x_crd,y_crd,tm1,dif,win_st,st,n,msg,dfclt,nums,moves,dead
-
+    global cells,goal,cnt,player_y,player_x,x_crd,y_crd,tm1,dif,win_st,st,n,msg,dfclt,nums,moves,dead,pwr
+    pwr=3
     cells= [[clrs[r(0,len(clrs)-1)] for i in range(n)] for y in range(n)]
     if dfclt[0]:
         moves = 20
@@ -197,7 +197,7 @@ def change_clrs(): #меняет все цвета (см. строки 153-155)
 
 
 def game(): #НОУ КОММЕНТО
-    global win_st,dif,tm1,goal,cnt,cells,display,clock,time_lim,moves,msg,nums
+    global win_st,dif,tm1,goal,cnt,cells,display,clock,time_lim,moves,msg,nums,pwr
     while True: #бесконечный(нет) цикл обработки событий
         if cnt==[2,2,2]: #проверяем а вдрг уже собрал всё
             win_st=True
@@ -243,7 +243,9 @@ def game(): #НОУ КОММЕНТО
                     move(event.key)
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_SPACE:
-                        change_clrs()
+                        if pwr>=1:
+                            pwr-=1
+                            change_clrs()
             display.fill((0, 0, 0))#покраска дисплея
             pygame.draw.rect(display,(200,100,100),(125,0,750,750)) #отрисовка игрового поля покачто не роляет но потом на месте заливки будет рамка красивая
 
@@ -277,6 +279,8 @@ def game(): #НОУ КОММЕНТО
             print_txt(str(cnt[2])+"/2", 950, 455)
             print_txt('game time:', 900, 85)
             total_tm=round(time_lim-(time.time()-st),3)
+            print_txt("pwr:", 900, 185)
+            print_txt(str(pwr)+"/3", 1000, 185)
 
             if total_tm<=0:#проверка не вышло ли время
                 lose('(out of time)')
