@@ -89,11 +89,11 @@ clrs=[(000,255,255),(000,000,255),(255,000,255),(000,255,000),(000,128,000),(128
 ###тут задаю основные переменные
 n=4  #размер поля
 cells= [[clrs[r(0,len(clrs)-1)] for i in range(n)] for y in range(n)] #массив в котором хранятся цвета для каждой из клеток
-if dfclt[0]:
+if dfclt[0]: #это чиселки которые будут в каждой из клеток
     nums=[ [r(-5,5) for i in range(n)] for j in range(n) ]
     nums[0][n-1]=None
     moves=20
-if dfclt[1]:
+if dfclt[1]: #тут храним инфу мёртвая ли клетка
     dead=[[False for i in range(n)] for j in range(n)]
 
 goal= []  #тут придумываю 3 цвета которые нужно будет собрать
@@ -122,7 +122,7 @@ nums_g={i:pygame.font.Font('better-vcr_0.ttf',int(con/2)).render(str(i),True,(25
 
 
 
-def print_num(num,x,y):  #это чтобы выводить текст на дисплей
+def print_num(num,x,y):  #это чтобы выводить чиселки на дисплей
     global nums_g
     display.blit(nums_g[num],(x,y))
 
