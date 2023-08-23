@@ -208,7 +208,7 @@ def game(): #НОУ КОММЕНТО
             if dead[x_crd][y_crd]:
                 lose('dont step on dead cells')
         if not win_st:#если ты НЕ ВЫИГРАЛ
-            current_clr=cells[x_crd][y_crd] #сука это блядь интуитивно понятно разрази тебя варда но я напишу что ЭТО ЦВЕТ КЛЕТКИ НА КОТОРОЙ СТОИТ ИГРОК
+            current_clr=cells[x_crd][y_crd] #ЭТО ЦВЕТ КЛЕТКИ НА КОТОРОЙ СТОИТ ИГРОК
             if dfclt[0]:
                 plus=nums[x_crd][y_crd]
                 if plus!=None:
